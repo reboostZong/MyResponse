@@ -1,5 +1,7 @@
 package com.zcf;
 
+import sun.misc.BASE64Encoder;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -7,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URLEncoder;
 
 public class ResponseServlet extends HttpServlet {
 
@@ -22,8 +24,22 @@ public class ResponseServlet extends HttpServlet {
 
 //        resp.setCharacterEncoding("UTF-8");
 //        resp.setContentType("text/html;charset=UTF-8");
-        resp.setContentType(this.getServletContext().getMimeType("beauty.JPG"));
-        resp.setHeader("Content-Disposition", "attachment;filename=abc.jpg");
+        String fileName = "美女.jpg";
+        resp.setContentType(this.getServletContext().getMimeType(fileName));
+        String agent = req.getHeader("User-Agent");
+
+        String encodeFileName = fileName;
+        if (agent.contains("MSIE")) {
+            encodeFileName = URLEncoder.encode(fileName, "utf-8");
+            encodeFileName = encodeFileName.replace("+", " ");
+        } else if (agent.contains("Firefox")) {
+            BASE64Encoder base64Encoder = new BASE64Encoder();
+            encodeFileName = "=?uft-8?B?" + base64Encoder.encode(encodeFileName.getBytes("utf-8")) +"?=";
+
+        } else {
+            encodeFileName = URLEncoder.encode(fileName, "utf-8");
+        }
+        resp.setHeader("Content-Disposition", "attachment;filename="+ encodeFileName);
 
 
         String path = this.getServletContext().getRealPath("/WEB-INF/beauty.JPG");
