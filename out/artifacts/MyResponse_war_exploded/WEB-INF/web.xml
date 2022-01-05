@@ -9,8 +9,28 @@
         <servlet-class>com.zcf.ResponseServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>bServlet</servlet-name>
+        <servlet-class>com.zcf.BServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>aServlet</servlet-name>
+        <servlet-class>com.zcf.AServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>response</servlet-name>
         <url-pattern>/response</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>bServlet</servlet-name>
+        <url-pattern>/bServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>aServlet</servlet-name>
+        <url-pattern>/aServlet</url-pattern>
     </servlet-mapping>
 </web-app>
